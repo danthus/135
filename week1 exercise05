@@ -1,0 +1,23 @@
+#include <iostream>
+using namespace std;
+
+struct ShoeType
+{
+    char style;
+    double price;
+};
+
+ShoeType discount(ShoeType oldRecord)
+{
+    ShoeType newRecord={oldRecord.style, oldRecord.price*0.9};
+    return newRecord;
+}
+
+int main()
+{
+    ShoeType Nike={'s',20};
+    ShoeType discountNike=discount(Nike);
+    cout<<discountNike.price<<endl;
+    
+    return 0;
+}
