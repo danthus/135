@@ -30,39 +30,6 @@ private:
     int faceValue;	// stores the current face value of the die
 };
 
-
- //Complete the main function as required in the exercise
-
-int main()
-{
-	srand((unsigned)time(NULL)); // Keep this statement!
-
-	// Your code for Question 3 go here ...
-
-	Die one;
-	Die two;
-	Die three;
-
-	int numOftimes=0;
-	while(true)
-	{
-		one.roll();
-		two.roll();
-		three.roll();
-		
-		numOftimes++;
-
-		if(one.getFaceValue()==5 && two.getFaceValue()==5 && three.getFaceValue()==5)
-			break;
-	}
-
-	cout<<"number of times it takes is "<<numOftimes<<endl;
-
-	system("pause");
-	return 0;
-}
-
-
 // Complete the implementation of the Die class. Member function roll is already provided
 
 Die::Die()
@@ -92,4 +59,73 @@ void Die::setFaceValue(int value)
 {
 	if(value>=1&&value<=6)
 		faceValue=value;
+}
+
+//class of two dices
+
+class PairOfDice
+{
+public:
+	//default constructor
+	PairOfDice();
+
+	void rollPair();
+	int sumOfPair();
+
+private:
+	Die pairOne;
+	Die pairTwo;
+};
+
+PairOfDice::PairOfDice() //default, set two dices facevalue to 1
+{
+	pairOne.setFaceValue(1);
+	pairTwo.setFaceValue(1);
+}
+
+void PairOfDice::rollPair()
+{
+	pairOne.roll();
+	pairTwo.roll();
+}
+
+int PairOfDice::sumOfPair()
+{
+	int sum=pairOne.getFaceValue() + pairTwo.getFaceValue();
+	
+	return sum;
+}
+
+
+int main()
+{
+	srand((unsigned)time(NULL)); // Keep this statement!
+
+	// Your code for Question 3 go here ...
+
+	Die one;
+	Die two;
+	Die three;
+
+	int numOftimes=0;
+	while(true)
+	{
+		one.roll();
+		two.roll();
+		three.roll();
+		
+		numOftimes++;
+
+		if(one.getFaceValue()==5 && two.getFaceValue()==5 && three.getFaceValue()==5)
+			break;
+	}
+
+	cout<<"number of times it takes is "<<numOftimes<<endl;
+
+	PairOfDice four;
+	four.rollPair();
+	cout<<"sum of the pair of dices is "<<four.sumOfPair()<<endl;
+
+	system("pause");
+	return 0;
 }
