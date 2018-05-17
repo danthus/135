@@ -1,0 +1,88 @@
+// This is the starting file for Week 2 Exercise 1 Question 3
+// Die class definition and partial implementation is provided
+// You need to complete the class implementation and the main function as required in the exercise
+
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+using namespace std;
+
+class Die // Represents a 6-face die object
+{
+public:
+
+    Die();
+	// initialize the die's face value to be 1
+
+    int roll();
+    // roll the die and returns the resulted face value
+
+    int getFaceValue();
+
+	void setFaceValue(int value);
+	// if the value is valid (between 1 and 6), set the face value to be the value
+	// otherwise, do nothing
+
+
+private:
+
+    int faceValue;	// stores the current face value of the die
+};
+
+
+ //Complete the main function as required in the exercise
+
+int main()
+{
+	srand((unsigned)time(NULL)); // Keep this statement!
+
+	// Your code for Question 3 go here ...
+
+	Die one;
+	Die two;
+	Die three;
+
+	int numOftimes=0;
+	while(true)
+	{
+		one.roll();
+		two.roll();
+		three.roll();
+		
+		numOftimes++;
+
+		if(one.getFaceValue()==5 && two.getFaceValue()==5 && three.getFaceValue()==5)
+			break;
+	}
+
+	cout<<"number of times it takes is "<<numOftimes<<endl;
+
+	system("pause");
+	return 0;
+}
+
+
+// Complete the implementation of the Die class. Member function roll is already provided
+
+Die::Die()
+{
+	faceValue=1;
+}
+
+int Die::roll()
+{
+	// faceValue is randomly generated between 1 and 6
+	faceValue = rand() % 6 + 1;
+	return faceValue;
+}
+
+int Die::getFaceValue()
+{
+	return faceValue;
+}
+
+void Die::setFaceValue(int value)
+{
+	if(value>=1&&value<=6)
+		faceValue=value;
+}
