@@ -18,6 +18,7 @@ public:
     // roll the die and returns the resulted face value
 
     int getFaceValue();
+	int getFaceDown();
 
 	void setFaceValue(int value);
 	// if the value is valid (between 1 and 6), set the face value to be the value
@@ -79,6 +80,12 @@ int Die::roll()
 int Die::getFaceValue()
 {
 	return faceValue;
+}
+
+int Die::getFaceDown()
+{
+	int FaceDown=7-faceValue;
+	return FaceDown;
 }
 
 void Die::setFaceValue(int value)
