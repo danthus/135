@@ -1,0 +1,47 @@
+#include <iostream>
+using namespace std;
+
+class HotDogStand
+{
+private:
+	int ID;
+	int sold;
+
+public:
+	HotDogStand(int first, int second);
+	void JustSold(){sold++;}
+
+	//getter
+	int getID(){return ID;}
+	int getSold(){return sold;}
+};
+
+HotDogStand::HotDogStand(int first, int second)
+{
+	ID=first;
+	sold=second;
+}
+
+int main()
+{
+	HotDogStand alpha(1,0);
+	HotDogStand gamma(2,0);
+	HotDogStand delta(3,0);
+
+	alpha.JustSold();
+	alpha.JustSold();
+
+	gamma.JustSold();
+	gamma.JustSold();
+	gamma.JustSold();
+
+	delta.JustSold();
+
+
+	cout<<alpha.getSold()<<endl;
+	cout<<gamma.getSold()<<endl;
+	cout<<delta.getSold()<<endl;
+
+	system("pause");
+	return 0;
+}
