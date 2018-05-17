@@ -8,6 +8,7 @@ private:
 	int sold;
 
 public:
+	HotDogStand(); //default
 	HotDogStand(int first, int second);
 	void JustSold(){sold++;}
 
@@ -15,6 +16,12 @@ public:
 	int getID(){return ID;}
 	int getSold(){return sold;}
 };
+
+HotDogStand::HotDogStand()
+{
+	ID=1;
+	sold=0;
+}
 
 HotDogStand::HotDogStand(int first, int second)
 {
