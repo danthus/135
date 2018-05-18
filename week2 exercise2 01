@@ -1,0 +1,106 @@
+#include <iostream>
+using namespace std;
+
+class Fraction
+{
+public:
+	//constructors
+	Fraction();
+	Fraction(int below);
+	Fraction(int above, int below);
+	//output
+	void output();
+	//equal
+	bool equal(Fraction number);
+	//simplify
+	void simplify();
+
+private:
+	int nume;  //above the line
+	int deno;  //below the line
+};
+
+//constructors
+Fraction::Fraction()
+{
+	nume=1;
+	deno=1;
+}
+Fraction::Fraction(int below)
+{
+	nume=1;
+	deno=below;
+}
+Fraction::Fraction(int above, int below)
+{
+	nume=above;
+	deno=below;
+}
+
+//output
+void Fraction::output()
+{
+	cout<<nume<<"/"<<deno<<endl;
+}
+
+//equal
+bool Fraction::equal(Fraction number)
+{
+	double quotient1=static_cast<double>(nume)/deno;
+	double quotient2=static_cast<double>(number.nume) / number.deno;
+
+	if(quotient1==quotient2)
+		return true;
+
+	return false;
+}
+
+//simplify
+void Fraction::simplify()
+{
+	int max;
+	if(nume>deno)
+		max=nume;
+	else
+		max=deno;
+
+	for(int i=max;i>1;i--)
+	{
+		if(nume%i==0 && deno%i==0)
+		{
+			nume=nume/i;
+			deno=deno/i;
+			break;
+		}
+	}
+}
+
+
+int main()
+{
+	Fraction num1(3), num2(6), num3, num4;
+	num3=Fraction(4,12);
+	num4=Fraction(2,12);
+
+	cout<<"num1 is ";
+	num1.output();
+	cout<<"num2 is ";
+	num2.output();
+	cout<<"num3 is ";
+	num3.output();
+	cout<<"num4 is ";
+	num4.output();
+
+	if(num1.equal(num2))
+		cout<<"num1 and num2 are equal"<<endl;
+	
+	num3.simplify();
+	cout<<"After simplifying, num3 is ";
+	num3.output();
+
+	if(num2.equal(num4))
+		cout<<"num2 and num4 are euqal"<<endl;
+
+	system("pause");
+	return 0;
+}
