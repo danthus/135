@@ -1,0 +1,88 @@
+#include <iostream>
+using namespace std;
+
+class Fraction
+{
+public:
+	Fraction();
+	Fraction(int d);
+	Fraction(int n, int d); 
+	void output();
+	bool equal(Fraction f); // // this function may change the object
+	friend bool equal(const Fraction& f1, const Fraction& f2); 
+
+private:
+	Fraction simplify() const;
+	int numerator;
+	int denominator;
+};
+
+Fraction::Fraction()
+{
+	numerator = 1;
+	denominator = 1;
+}
+
+Fraction::Fraction(int d)
+{
+	numerator = 1;
+	denominator = d;
+}
+
+Fraction::Fraction(int n, int d)
+{
+	numerator = n;
+	denominator = d;
+}
+
+Fraction Fraction::simplify() const
+{
+	int gcd = 1;
+	int nume=numerator;
+	int deno=denominator;
+	int divisor = (numerator <= denominator) ? numerator : denominator;
+	while(divisor > 0){	// Try to find the greatest common divisor of numerator and denominator.
+				// Euclidean algorithm is more efficient. But this one is easier to understand.
+		if(numerator % divisor == 0 && denominator % divisor == 0){
+			gcd = divisor;
+			break; // At this point, the while loop must stop.
+		}
+		else
+			divisor--;
+	}
+	nume /= gcd;	// The function "simplify" possibly changes this Fraction object!!
+	deno /= gcd;
+	Fraction simplified(nume, deno);
+
+	return simplified;
+}
+
+bool Fraction::equal(Fraction f)
+{
+	simplify(); // Note: "simplify" function possibly changes the object.
+	f.simplify();
+	return numerator == f.numerator && denominator == f.denominator;
+}
+
+bool equal(const Fraction& f1, const Fraction& f2) // equal function
+{
+	Fraction s1 = f1.simplify();	// Note: "simplify" function possibly changes the object.
+	Fraction s2 = f2.simplify();
+	return s1.numerator == s2.numerator && s1.denominator == s2.denominator;
+}
+
+void Fraction::output()
+{
+	cout << numerator << "/" << denominator << endl;
+}
+
+
+int main(){
+	Fraction num1 (4,12);
+	Fraction num2 (2,6);
+
+	cout<<equal(num1,num2)<<endl;
+
+	system("pause");
+	return 0;
+}
