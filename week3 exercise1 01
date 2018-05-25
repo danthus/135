@@ -1,0 +1,70 @@
+#include <iostream>
+using namespace std;
+
+class HotDogStand
+{
+public:
+	HotDogStand();
+	HotDogStand(int newID);
+	int getID();
+	int getNumSold();
+	static int getTotalSold();
+	void justSold();
+private:
+	int numSold;
+	int ID;
+	static int totalSold;
+};
+
+int HotDogStand::totalSold=0;
+
+HotDogStand::HotDogStand() : numSold(0), ID(0)
+{ }
+
+HotDogStand::HotDogStand(int newID) : numSold(0), ID(newID)
+{ }
+
+int HotDogStand::getID()
+{
+	return ID;
+}
+
+void HotDogStand::justSold()
+{
+	numSold++;	// increment number sold at this stand
+	totalSold++;
+}
+
+int HotDogStand::getNumSold()
+{
+	return numSold;
+}
+
+int HotDogStand::getTotalSold()
+{
+	return totalSold;
+}
+
+int main()
+{
+	// Test our code with two hot dog stands
+	HotDogStand s1(1),s2(2);
+
+	s1.justSold();
+	s2.justSold();
+	s1.justSold();
+
+	cout << "Stand " << s1.getID() << " sold " << s1.getNumSold() << endl;
+	cout << "Stand " << s2.getID() << " sold " << s2.getNumSold() << endl << endl;
+
+	// Sold some more
+	s1.justSold();
+	cout << "Stand " << s1.getID() << " sold " << s1.getNumSold() << endl;
+	cout << "Stand " << s2.getID() << " sold " << s2.getNumSold() << endl << endl;
+
+	cout<<"total number of hot dogs sold "<<HotDogStand::getTotalSold()<<endl;
+  
+	system("pause");
+	return 0;
+}
+
