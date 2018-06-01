@@ -1,0 +1,114 @@
+#include <iostream>
+using namespace std;
+
+class Fraction
+{
+public:
+	Fraction();
+	Fraction(int d);
+	Fraction(int n, int d);
+
+	Fraction product(Fraction& num1) const;
+
+	friend bool operator == (const Fraction&, const Fraction&);
+	friend Fraction operator + (const Fraction& num1, const Fraction& num2);
+	friend ostream& operator << (ostream& outs, const Fraction& num);
+	friend Fraction operator *(Fraction& num1 ,Fraction& num2);
+
+private:
+	int numerator;
+	int denominator;
+
+
+	Fraction simplify() const;
+};
+
+Fraction::Fraction()
+{
+	numerator = 1;
+	denominator = 1;
+}
+
+Fraction::Fraction(int d)
+{
+	numerator = 1;
+	denominator = d;
+}
+
+Fraction::Fraction(int n, int d)
+{
+	numerator = n;
+	denominator = d;
+}
+
+Fraction Fraction::simplify() const
+{
+	int gcd = 1;
+	int divisor = (numerator <= denominator) ? numerator : denominator;
+	while(divisor > 0){
+		if(numerator % divisor == 0 && denominator % divisor == 0){
+			gcd = divisor;
+			break;
+		}
+		else
+			divisor--;
+	}
+	int newNum = numerator / gcd;
+	int newDen = denominator / gcd;
+	return Fraction(newNum, newDen);
+}
+
+bool operator == (const Fraction& num1, const Fraction& num2)
+{
+	Fraction n1 = num1.simplify();
+	Fraction n2 = num2.simplify();
+	return n1.numerator == n2.numerator && n1.denominator == n2.denominator;
+}
+
+Fraction operator + (const Fraction& num1, const Fraction& num2)
+{
+	int denom = num1.denominator * num2.denominator;
+	int numer = num1.numerator * num2.denominator + num2.numerator * num1.denominator;
+	return Fraction(numer, denom);
+}
+
+ostream& operator << (ostream& outs, const Fraction& num)
+{
+	outs << num.numerator << "/" << num.denominator << endl;
+	return outs;
+}
+
+Fraction operator *(Fraction& num1 ,Fraction& num2)
+{
+	Fraction product;
+	product.numerator = num1.numerator*num2.numerator;
+	product.denominator = num1.denominator*num2.denominator;
+
+	return product;
+}
+
+Fraction Fraction::product(Fraction& num1) const
+{
+	Fraction product;
+	product.numerator = num1.numerator*numerator;
+	product.denominator = num1.denominator*denominator;
+
+	return product;
+}
+
+Fraction 
+
+
+
+int main(){
+	
+	Fraction num1(3,4);
+	Fraction num2(5,3);
+
+	Fraction product = num1*num2;
+
+	cout<<product<<endl;
+
+	system("pause");
+	return 0;
+}
