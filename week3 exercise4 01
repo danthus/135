@@ -1,0 +1,151 @@
+#include <iostream>
+using namespace std;
+
+class PrimeNumber
+{
+public:
+	PrimeNumber():prime(2){}
+	PrimeNumber(int num);
+	int getPrime(){return prime;}
+
+	/*PrimeNumber operator ++();
+	PrimeNumber operator --();*/
+
+private:
+	int prime;
+};
+
+bool isPrime(int num)
+{
+	int divisor=0;
+	for(int n=1;n<=num;n++)
+	{
+		if(num%n == 0)
+			divisor++;
+	}
+	if(divisor == 2)
+		return true;
+	return false;
+}
+
+PrimeNumber::PrimeNumber(int num)
+{
+	PrimeNumber result;
+	if(isPrime(num) == false)
+		prime=2;	
+	else
+		prime=num;
+
+}
+//PrimeNumber PrimeNumber::operator ++()
+//{
+//	while(true)
+//	{
+//		int divisor=0;
+//		prime++;
+//		for(int n=1;n<=prime;n++)
+//		{
+//			if(prime%n == 0)
+//				divisor++;
+//		}
+//		if(divisor==2)
+//		{
+//			PrimeNumber increment;
+//			increment.prime=prime;
+//			return increment;
+//		}
+//	}
+//}
+//
+//PrimeNumber PrimeNumber::operator --()
+//{
+//	if(prime ==2)
+//		return prime;
+//	while(true)
+//	{
+//		int divisor=0;
+//		prime--;
+//		for(int n=1;n<=prime;n++)
+//		{
+//			if(prime%n == 0)
+//				divisor++;
+//		}
+//		if(divisor==2)
+//		{
+//			PrimeNumber increment;
+//			increment.prime=prime;
+//			return increment;
+//		}
+//	}
+//}
+
+PrimeNumber operator ++(PrimeNumber& num)
+{
+	int value = num.getPrime();
+	while(true)
+	{
+		int divisor=0;
+		value++;
+		for(int n=1;n<=value;n++)
+		{
+			if(value%n == 0)
+				divisor++;
+		}
+		if(divisor==2)
+		{
+			PrimeNumber increment(value);
+			num=increment;
+			return increment;
+		}
+	}
+}
+
+PrimeNumber operator --(PrimeNumber& num)
+{
+	int value = num.getPrime();
+	if(value == 2)
+		return value;
+	while(true)
+	{
+		int divisor=0;
+		value--;
+		for(int n=1;n<=value;n++)
+		{
+			if(value%n == 0)
+				divisor++;
+		}
+		if(divisor==2)
+		{
+			PrimeNumber increment(value);
+			num=increment;
+			return increment;
+		}
+	}
+}
+
+ostream& operator <<(ostream& output, PrimeNumber& num)
+{
+	output<<num.getPrime();
+
+	return output;
+}
+
+int main()
+{
+	PrimeNumber pn(13), pn1(9);
+
+	cout<<pn<<endl;
+	cout<<pn1<<endl;
+
+	cout<<++pn<<endl;
+	cout<<pn<<endl;
+
+	cout<<++++pn<<endl;
+	cout<<pn<<endl;
+
+	--pn1;
+	cout<<pn1<<endl;
+
+	system("Pause");
+	return 0;
+}
