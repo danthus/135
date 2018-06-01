@@ -1,0 +1,124 @@
+#include <iostream>
+using namespace std;
+#include <cstdlib>
+#include <ctime>
+
+class Money
+{
+public:
+	Money():dollars(0),cents(0){}
+	Money(int, int);
+	Money(double);
+	double toDouble();
+
+	int getDollars(){return dollars;}
+	int getCents(){return cents;}
+
+
+private:
+	int dollars;
+	int cents;
+};
+
+Money::Money(int dollar, int cent)
+{
+	if(cent>99)
+	{
+		dollars = cent/100;
+		cents = cent - dollars*100;
+	}
+	else
+	{
+		dollars = dollar;
+		cents = cent;
+	}
+}
+
+Money::Money(double amount)
+{
+	dollars = static_cast<int>(amount);
+	cents = static_cast<int>((amount-dollars)*100);
+}
+
+double Money::toDouble()
+{
+	double amount = dollars + static_cast<double>(cents)/100;
+	return amount;
+}
+
+double addUp(Money m1, Money m2)
+{
+	int centSum = m1.getCents() + m2.getCents();
+	int dollarSum;
+	if(centSum>99)
+	{
+		dollarSum = centSum/100;
+		centSum = centSum - dollarSum*100;
+	}
+	dollarSum = dollarSum + m1.getDollars() + m2.getDollars();
+	double sum = dollarSum + static_cast<double>(centSum)/100;
+
+	return sum;
+}
+
+ostream& operator <<(ostream& output, Money amount)
+{
+	output<<amount.toDouble();
+	return output;
+}
+
+double Sum(Money* line, int length)
+{
+	double sum=0;
+
+	for(int n=0;n<length;n++)
+		sum += line[n].toDouble();
+
+	return sum;
+}
+
+//Money* DoubleToMoney(double* line, int length)
+//{
+//	Money* moneyArr = new Money[length];
+//	for(int n=0;n<length;n++)
+//		Money moneyArr[n](line[n]);
+//
+//	return moneyArr;
+//}
+
+int main()
+{
+	srand(time(0));
+	Money M1(7,99), M2(0,225);
+	
+	cout<<"M1 : "<<M1.getDollars()<<" dollars "<<M1.getCents()<<" cents"<<endl;
+	cout<<"M2 : "<<M2.getDollars()<<" dollars "<<M2.getCents()<<" cents"<<endl;
+
+	double amount = M1.toDouble();
+	cout<<"M1 amount: "<<amount<<endl;
+	amount = M2.toDouble();
+	cout<<"M2 amount: "<<amount<<endl;
+
+	Money M3(amount), M4;
+	cout<<"M3 : "<<M3.getDollars()<<" dollars "<<M3.getCents()<<" cents"<<endl;
+	cout<<"M4 : "<<M4.getDollars()<<" dollars "<<M4.getCents()<<" cents"<<endl;
+
+	M4 = addUp(M1, M3);
+	cout<<"M4 : "<<M4.getDollars()<<" dollars "<<M4.getCents()<<" cents"<<endl;
+
+	cout<<"M4: "<<M4<<endl;
+
+
+	Money* line = new Money[10];
+	for(int n=0;n<10;n++)
+	{
+		line[n] = Money (rand()%100,rand()%100);
+		cout<<line[n].getDollars()<<endl;
+	}
+
+	cout<<Sum(line, 10)<<endl;
+
+
+	system("pause");
+	return 0;
+}
