@@ -1,0 +1,49 @@
+#include <iostream>
+#include <math.h>
+using namespace std;
+
+class Point
+{
+public:
+    Point(){x=0;y=0;}
+    Point(double hon, double ver){x=hon;y=ver;}
+    
+    friend void horizontal_move(Point&,double);
+    friend void vertical_move(Point&, double);
+    friend double distance_between(Point,Point);
+    
+//    void horizontal_move(double distance){x+=distance;}
+//    void vertical_move(double distance){y+=distance;}
+//    double distance_between(Point);
+private:
+    double x;
+    double y;
+};
+
+void horizontal_move(Point& A, double distance)
+{
+    A = Point (A.x + distance, A.y);
+}
+
+void vertical_move(Point& A, double distance)
+{
+    A = Point (A.x, A.y + distance);
+}
+
+double distance_between(Point first, Point second)
+{
+    double distance =
+    sqrt( pow(first.x-second.x, 2)+pow(first.y-second.y, 2));
+    
+    return distance;
+}
+
+int main()
+{
+    Point A(2,5), B(6,10);
+    vertical_move(A, 2);
+    cout<<distance_between(A,B)<<endl;
+    
+    
+    return 0;
+}
