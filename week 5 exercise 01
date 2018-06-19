@@ -1,0 +1,49 @@
+#include <iostream>
+using namespace std;
+
+class A
+{
+public:
+	A(){num=1;cout<<"default\n";}
+	A(const A& origin){num=origin.num;cout<<"copy\n";}
+	~A(){cout<<"destructor\n";}
+	void operator = (const A& origin){num=origin.num;cout<<"assignment\n";}
+
+private:
+	int num;
+};
+
+A& foo(A& obj)
+	{
+		cout<<"inside foo\n";
+		return obj;
+	}
+
+int main()
+{
+	//#1
+	/*A thing;
+	A anthor(thing);*/
+
+	//#2
+	/*A thing;
+	A another = thing;*/
+
+	//#3
+	/*A thing;
+	A another;
+	thing = another;*/
+
+	//#4,5,6
+	/*A thing;
+	foo(thing);*/
+
+	//#7,8
+	A thing;
+	A another;
+	another = foo(thing);
+
+
+
+	return 0;
+}
