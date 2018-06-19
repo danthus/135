@@ -1,0 +1,66 @@
+#include <iostream>
+using namespace std;
+#include <cstring>
+
+class String
+{
+public:
+	String()
+	{str = new char('\0');}
+
+	String(char* s);
+
+	~String(){delete []str;}
+
+	String(String&);
+
+	int length(){return strlen(str);}
+
+	friend ostream& operator <<(ostream& out, String s)
+	{cout<<s.str; return out;}
+
+
+	friend bool operator ==(String, String);
+
+
+
+private:
+	char* str;
+};
+
+String::String(char* c_str)
+{
+	str = new char[strlen(c_str)+1];
+	strcpy(str, c_str);
+}
+
+String::String(String& s)
+{
+	str = new char[strlen(s.str)+1];
+	strcpy(str, s.str);
+}
+
+bool operator ==(String str1, String str2)
+{
+	int len1 = strlen(str1.str);
+	int len2 = strlen(str2.str);
+	if(len1 != len2)
+		return false;
+	else
+	{
+		for(int n=0;n<len1;n++)
+			if(str1.str[n] != str2.str[n])
+				return false;
+		return true;
+	}
+}
+int main()
+{
+	String s1="hello";
+	String s2 = "hi";
+
+	cout<<(s1==s2)<<endl;
+
+	system("pause");
+	return 0;
+}
