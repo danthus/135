@@ -1,0 +1,40 @@
+#include <iostream>
+using namespace std;
+
+bool isSubArray(const int arr[], int len1, const int longer[], int len2)
+{
+	int count=0;
+	for(int n=0;n<len2;n++)
+	{
+		if(longer[n]==arr[0])
+		{
+			for(int j=0;j<len1;j++)
+			{
+				if(longer[n+j]==arr[j])
+					count++;
+				else
+				{
+					count=0;
+					break;
+				}
+			}
+		}
+	}
+
+	if(count == len1)
+		return true;
+	else
+		return false;
+}
+
+
+int main()
+{
+	int longer[] = {8,3,8,2,3,2,3,1,9,7};
+	int arr[] = {8,2,1};
+
+	cout<<isSubArray(arr, 3, longer, 10)<<endl;
+
+	system("pause");
+	return 0;
+}
