@@ -1,0 +1,93 @@
+#include <iostream>
+using namespace std;
+#include <cstring>
+
+class String
+{
+public:
+	~String();
+	String(const String& );
+	String operator = (const String );
+	String ();
+	String (const string );
+	friend ostream& operator << (ostream&, const String& );
+	int length () const;
+	String operator [] (const int);
+
+private:
+	char* str;
+	int len;
+};
+
+String::~String()
+{
+	delete []str;
+	cout<<"destructor"<<endl; //delete
+}
+
+String::String(const String& origin)
+{
+	len = origin.len;
+	str = new char[origin.len];
+	for(int n=0 ;n<origin.len; n++)
+		str[n] = origin.str[n];
+
+	cout<<"string copy"<<endl; //delete
+}
+
+String String::operator = (String origin)
+{
+	len = origin.len;
+	str = new char[len];
+	for(int n=0; n<len; n++)
+		str[n] = origin.str[n];
+
+	return origin;
+}
+
+
+String::String(const string c_string)
+{
+	len = c_string.size();
+	str = new char[len];
+
+	for(int n=0; n<len; n++)
+		str[n] = c_string[n];
+}
+
+ostream& operator << (ostream& out, const String& s)
+{
+	for(int n=0; n<s.len; n++)
+		out<<s.str[n];
+
+	return out;
+}
+
+int String::length() const
+{
+	return len;
+}
+        
+
+void foo(String a)  //delete
+{
+	cout<<"inside foo"<<endl;
+}
+
+int main()  //delete
+{
+	String a = "hello";
+	String b = "hi";
+
+	b=a;
+
+	cout<<b<<endl;
+	
+	//foo(b);
+
+	//cout<<"hi"<<endl;
+
+
+	//system("pause");
+	return 0;
+}
