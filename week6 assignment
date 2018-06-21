@@ -1,93 +1,125 @@
 #include <iostream>
 using namespace std;
-#include <cstring>
 
 class String
 {
 public:
-	~String();
-	String(const String& );
-	String operator = (const String );
-	String ();
-	String (const string );
-	friend ostream& operator << (ostream&, const String& );
-	int length () const;
-	String operator [] (const int);
-
+    ~String();
+    String(const String& );
+    String operator = (const String );
+    String ();
+    String (const char* const );
+    friend ostream& operator << (ostream&, const String& );
+    int length () const;
+    char& operator [] (const int);
+    
 private:
-	char* str;
-	int len;
+    char* str;
+    int len;
 };
 
 String::~String()
 {
-	delete []str;
-	cout<<"destructor"<<endl; //delete
+    delete []str;
+    cout<<"destructor"<<endl; //delete
 }
 
 String::String(const String& origin)
 {
-	len = origin.len;
-	str = new char[origin.len];
-	for(int n=0 ;n<origin.len; n++)
-		str[n] = origin.str[n];
-
-	cout<<"string copy"<<endl; //delete
+    len = origin.len;
+    str = new char[origin.len];
+    for(int n=0 ;n<origin.len; n++)
+        str[n] = origin.str[n];
+    
+    cout<<"string copy"<<endl; //delete
 }
 
 String String::operator = (String origin)
 {
-	len = origin.len;
-	str = new char[len];
-	for(int n=0; n<len; n++)
-		str[n] = origin.str[n];
-
-	return origin;
+    len = origin.len;
+    str = new char[len];
+    for(int n=0; n<len; n++)
+        str[n] = origin.str[n];
+    
+    return origin;
 }
 
 
-String::String(const string c_string)
+String::String(const char* const c_string)
 {
-	len = c_string.size();
-	str = new char[len];
-
-	for(int n=0; n<len; n++)
-		str[n] = c_string[n];
+    len = strlen(c_string);
+    str = new char[len];
+    
+    for(int n=0; n<len; n++)
+        str[n] = c_string[n];
 }
 
 ostream& operator << (ostream& out, const String& s)
 {
-	for(int n=0; n<s.len; n++)
-		out<<s.str[n];
-
-	return out;
+    for(int n=0; n<s.len; n++)
+        out<<s.str[n];
+    
+    return out;
 }
 
 int String::length() const
 {
-	return len;
+    return len;
 }
-        
+
+char& String::operator [] (int index)
+{
+    if(index >= len || index < 0)
+    {
+        cout<<"wrong index value"<<endl;
+        exit(1);
+    }
+    else
+        return str[index];
+}
+
+int compare_cstrs(const char* const first, const char* const second)
+{
+    int len1 = strlen(first);
+    int len2 = strlen(second);
+    
+    for(int n=0; n< (len1<len2? len1:len2) ; n++)
+    {
+        if(first[n] == second[n])
+            continue;
+        else if(first[n] > second[n])
+            return 1;
+        else
+            return -1;
+    }
+    
+    if(len1 == len2)
+        return 0;
+    else if(len1 > len2)
+        return 1;
+    else
+        return -1;
+}
+
+
 
 void foo(String a)  //delete
 {
-	cout<<"inside foo"<<endl;
+    cout<<"inside foo"<<endl;
 }
 
 int main()  //delete
 {
-	String a = "hello";
-	String b = "hi";
+    String a = "hello";
 
-	b=a;
-
-	cout<<b<<endl;
-	
-	//foo(b);
-
-	//cout<<"hi"<<endl;
-
-
-	//system("pause");
-	return 0;
+    cout<<a<<endl;
+    cout<<a[8]<<endl;
+    
+    //foo(b);
+    
+    //cout<<"hi"<<endl;
+    
+    
+    //system("pause");
+    return 0;
 }
