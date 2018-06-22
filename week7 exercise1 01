@@ -1,0 +1,136 @@
+#include <iostream>
+using namespace std;
+
+struct node
+{
+	int data;
+	node* link;
+};
+
+typedef node* nodePtr;
+
+void head_insert (nodePtr& head, int num)
+{
+	nodePtr pt = new node;
+	pt->data = num;
+
+	if(head == NULL)
+	{
+		head = pt;
+		pt->link = NULL;
+	}
+	else
+	{
+		pt->link = head;
+		head = pt;
+	}
+}
+
+nodePtr search (nodePtr head, int target)
+{
+	if(head == NULL)
+		return NULL;
+
+	while(head->data !=target)
+	{
+		if(head == NULL)
+			return NULL;
+		head = head->link;
+	}
+
+	if(head->data == target)
+		return head;
+	else 
+		return NULL;
+}
+
+void insert (nodePtr afterMe, int num)
+{
+	nodePtr pt = new node;
+	pt->data = num;
+
+	if(afterMe->link == NULL)
+		afterMe->link = pt;
+	else
+	{
+		pt->link = afterMe->link;
+		afterMe->link = pt;
+	}
+}
+
+void remove (nodePtr& head, int num)
+{
+	while(search(head, num)->data == num)
+	{
+		nodePtr iter = head;
+		if(iter->data == num)
+		{
+			nodePtr temp = iter->link;
+			delete iter;
+			head = temp;
+			continue;
+		}
+
+		while(iter->link->data != num)
+		{
+			iter = iter->link;
+		}
+
+		if(iter->link == NULL)
+		{
+			delete iter->link;
+			iter->link = NULL;
+			continue;
+		}
+		else
+		{
+			nodePtr temp = iter->link->link;
+			delete iter->link;
+			iter->link = temp;
+			continue;
+		}
+	}
+}
+
+void print_list(nodePtr head)
+{
+	nodePtr iter = head;
+	while(iter->link !=NULL)
+	{
+		cout<<iter->data<<" ";
+		iter = iter->link;
+	}
+	cout<<iter->data<<endl;
+}
+
+int main()
+{
+	nodePtr head = NULL;
+	for(int i=5; i>0; --i)
+	{
+		head_insert (head, 9);
+		head_insert (head, i);
+	}
+
+	cout<<"1 print: ";
+	print_list(head);        
+
+	cout<<"\n2 print: ";
+	cout<<search(head, 3)<<endl;
+
+	insert(head, 20);
+	cout<<"\n3 print: ";
+	print_list(head);
+
+	remove (head, 9);
+	cout<<"\n4 print: ";
+	print_list(head);
+
+	//remove (head, 20);
+	//cout<<"\n5 print: ";
+	//print_list(head);*/
+
+	system("pause");
+	return 0;
+
+}
