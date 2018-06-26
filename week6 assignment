@@ -22,7 +22,6 @@ private:
 String::~String()
 {
     delete []str;
-    cout<<"destructor"<<endl; //delete
 }
 
 String::String(const String& origin)
@@ -31,8 +30,6 @@ String::String(const String& origin)
     str = new char[origin.len];
     for(int n=0 ;n<origin.len; n++)
         str[n] = origin.str[n];
-    
-    cout<<"string copy"<<endl; //delete
 }
 
 String String::operator = (String origin)
@@ -141,6 +138,7 @@ public:
     Polynomial(const double);
     Polynomial operator = (const Polynomial);
     ~Polynomial();
+	int getSize(){return terms;}
     
     friend Polynomial operator + (Polynomial, Polynomial);
     friend Polynomial operator - (Polynomial, Polynomial);
@@ -198,11 +196,12 @@ Polynomial::~Polynomial()
 Polynomial operator + (Polynomial first, Polynomial second)
 {
     int max = first.terms > second.terms? first.terms:second.terms;
+	int min = first.terms < second.terms? first.terms:second.terms;
     if(first.terms == second.terms)
     {
         for(int n=max-1; n>=0; n--)
         {
-            if(first.coefficients[n] + second.coefficients[n]==0)
+            if(first[n] + second[n]==0)
                 max--;
             else
                 break;
@@ -211,49 +210,56 @@ Polynomial operator + (Polynomial first, Polynomial second)
     Polynomial sum;
     sum.terms = max;
     sum.coefficients = new double[max];
-    for(int n=0; n<max; n++)
-        sum.coefficients[n] = first.coefficients[n] + second.coefficients[n];
+    for(int n=0; n<min; n++)
+        sum.coefficients[n] = first[n] + second[n];
+	if(max > min)
+		for(int n=min; n<max; n++)
+			sum[n] = first.terms > second.terms ? first[n] : second[n];
     return sum;
 }
 
 Polynomial operator - (Polynomial first, Polynomial second)
 {
-    
     int max = first.terms > second.terms? first.terms:second.terms;
+	int min = first.terms < second.terms? first.terms:second.terms;
     if(first.terms == second.terms)
     {
         for(int n=max-1; n>0; n--)
         {
-            if(first.coefficients[n] - second.coefficients[n]==0)
+            if(first[n] - second[n]==0)
                 max--;
             else
                 break;
         }
     }
-    cout<<max<<endl;
     Polynomial quotient;
     quotient.terms = max;
     quotient.coefficients = new double[max];
-    for(int n=0; n<max; n++)
-        quotient.coefficients[n] = first.coefficients[n] - second.coefficients[n];
+    for(int n=0; n<min; n++)
+        quotient[n] = first[n] - second[n];
+	if(max > min)
+		for(int n=min; n<max; n++)
+			quotient[n] = first.terms > second.terms ? first[n] : second[n];
     return quotient;
 }
 
 Polynomial operator * (Polynomial first, Polynomial second)
 {
-    if(first.terms == 1 && first.coefficients[0] == 0)
+    if(first.terms == 1 && first[0] == 0)
         return Polynomial();
-    if(second.terms == 1 && second.coefficients[0] == 0)
+    if(second.terms == 1 && second[0] == 0)
         return Polynomial();
     
     Polynomial product;
     product.terms = first.terms+second.terms-2;
     product.coefficients = new double[product.terms];
+	for(int n=0; n<product.terms; n++)
+		product[n] = 0;
     
     for(int n=0; n<first.terms; n++)
     {
         for(int i=0; i<second.terms; i++)
-            product.coefficients[n+i] = first.coefficients[n]*second.coefficients[i];
+            product[n+i] = product[n+i] + first[n]*second[i];
     }
     return product;
 }
@@ -311,35 +317,4 @@ ostream& operator << (ostream& out, const Polynomial origin)
     else
         out<<" - "<<-1 * origin.coefficients[0];
     return out;
-}
-
-
-void foo(String a)  //delete
-{
-    cout<<"inside foo"<<endl;
-}
-
-int main()  //delete
-{
-    double* a = new double[3];
-    a[0]=5; a[1]=2; a[2]=3;
-    
-    double* b = new double[3];
-    b[0]=3; b[1]=3; b[2]=5;
-    
-    Polynomial A(a,3);
-    Polynomial B(b,3);
-    
-    Polynomial C = A-B;
-    cout<<A<<endl;
-    cout<<B<<endl;
-    cout<<C<<endl;
-    
-    C[7] = -5;
-    cout<<C<<endl;
-    
-    cout<<A.evaluate(-3)<<endl;
-    
-    
-    return 0;
 }
